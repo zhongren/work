@@ -651,6 +651,19 @@
     </profiles>
     <build>
         <finalName>newAdmin</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>xml/*.xml</include>
+                    <include>properties/*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/config/${profile.active}</directory>
+                <targetPath>config</targetPath>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
