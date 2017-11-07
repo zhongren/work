@@ -1,10 +1,14 @@
-package com.admin.common.base;
+package com.admin.common.orm;
 
 
-import com.admin.common.orm.Condition;
-import com.admin.common.orm.ConditionMap;
-
+import com.admin.common.exception.ParamValidateException;
+import com.admin.common.exception.enums.ParamEnum;
+import com.admin.common.orm.condition.Condition;
+import com.admin.common.orm.condition.ConditionMap;
+import com.admin.common.orm.condition.Op;
+import com.admin.common.orm.criteria.CreateCriteria;
 import com.admin.common.orm.criteria.SearchCriteria;
+import com.admin.common.util.BeanUtil;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -20,10 +24,8 @@ import java.util.Map;
  * Created by ZR_a on 2017/8/2.
  */
 public abstract class BaseRepo {
-
-    protected static String rootMapper="com.admin.mapper.";
-    private static String FIND =rootMapper+"BaseMapper.find";
-    private static String CREATE=rootMapper+"BaseMapper.create";
+    private static String FIND = "com.admin.mapper.BaseMapper.find";
+    private static String CREATE = "com.admin.mapper.BaseMapper.create";
     @Autowired
     protected SqlSessionTemplate sqlSessionTemplate;
 
@@ -60,7 +62,7 @@ public abstract class BaseRepo {
         //添加查询条件
         if (conditionMap != null && !conditionMap.isEmpty() && param != null && !param.isEmpty()) {
             List<Condition> conditionList = new ArrayList<>();
-            for (Map.Entry<String, Condition> entry : getCriterionMap().entrySet()) {
+            for (Map.Entry<String, Condition> entry : getConditionMap().entrySet()) {
                 if (!param.containsKey(entry.getKey())) {
                     continue;
                 }
@@ -89,32 +91,38 @@ public abstract class BaseRepo {
         if (columns != null && columns.length > 0) {
             List<String> columnList = new ArrayList<>();
             columnList.addAll(Arrays.asList(columns));
-            searchCriteria.setColumns(columnList);
+            searchCriteria.setColumnList(columnList);
         }
         //添加查询条件
-        List<Expression> expressionList = new ArrayList<>();
-        Expression expression = new Expression(field, Op.EQ, value);
-        expressionList.add(expression);
-        searchCriteria.setExpressions(expressionList);
+        List<Condition> conditionList = new ArrayList<>();
+        Condition condition = new Condition(field, Op.EQ, value);
+        conditionList.add(condition);
+        searchCriteria.setConditionList(conditionList);
         return searchCriteria;
     }
 
-    private CreateCriteria createCreateCriteria(Map<String, Object> param){
-        if (param==null||param.isEmpty()){
+    private CreateCriteria createCreateCriteria(Map<String, Object> param) {
+        if (param == null || param.isEmpty()) {
             throw new ParamValidateException(ParamEnum.PARAM_LACK);
         }
         Table table = AnnotationUtils.findAnnotation(this.getClass(), Table.class);
         String tableName = table.name();
-        CreateCriteria createCriteria=new CreateCriteria(tableName);
-        List<Expression> expressionList = new ArrayList<>();
-        for (Map.Entry<String,Object> map:param.entrySet()){
-            Expression expression=new Expression(map.getKey(),map.getValue());
-            expressionList.add(expression);
+        CreateCriteria createCriteria = new CreateCriteria(tableName);
+        List<Condition> conditionList = new ArrayList<>();
+        for (Map.Entry<String, Object> map : param.entrySet()) {
+            Condition condition = new Condition(map.getKey(), map.getValue());
+            conditionList.add(condition);
         }
-        createCriteria.setExpressions(expressionList);
+        createCriteria.setConditionList(conditionList);
         return createCriteria;
     }
 
+    /**
+     * 查询对象（map）集合
+     *
+     * @param param
+     * @return
+     */
     public List<Map<String, Object>> findMapList(Map<String, Object> param) {
         SearchCriteria searchCriteria = createSearchCriteria(param);
         List<Map<String, Object>> data = sqlSessionTemplate.selectList(FIND, searchCriteria);
@@ -124,6 +132,14 @@ public abstract class BaseRepo {
         return data;
     }
 
+    /**
+     * 根据条件查询对象（map）集合
+     *
+     * @param field
+     * @param value
+     * @param columns
+     * @return
+     */
     public List<Map<String, Object>> findMapListBy(String field, Object value, String... columns) {
         SearchCriteria searchCriteria = createSearchCriteria(field, value, columns);
         List<Map<String, Object>> data = sqlSessionTemplate.selectList(FIND, searchCriteria);
@@ -133,6 +149,14 @@ public abstract class BaseRepo {
         return data;
     }
 
+    /**
+     * 根据条件查询对象（map）
+     *
+     * @param field
+     * @param value
+     * @param columns
+     * @return
+     */
     public Map<String, Object> findMapBy(String field, Object value, String... columns) {
         SearchCriteria searchCriteria = createSearchCriteria(field, value, columns);
         List<Map<String, Object>> data = sqlSessionTemplate.selectList(FIND, searchCriteria);
@@ -145,28 +169,45 @@ public abstract class BaseRepo {
         return data.get(0);
     }
 
+    /**
+     * 根据条件查询对象（map）,转换为对象（class）
+     *
+     * @param field
+     * @param value
+     * @param tClass
+     * @param columns
+     * @param <T>
+     * @return
+     */
     public <T> T findBy(String field, Object value, Class<T> tClass, String... columns) {
         Map<String, Object> map = findMapBy(field, value, columns);
         return BeanUtil.convertMap2Bean(map, tClass);
     }
 
+    /**
+     * 根据条件查询对象（map）集合,转换为对象集合（class）
+     *
+     * @param field
+     * @param value
+     * @param tClass
+     * @param columns
+     * @param <T>
+     * @return
+     */
     public <T> List<T> findListBy(String field, Object value, Class<T> tClass, String... columns) {
         List<Map<String, Object>> list = findMapListBy(field, value, columns);
         return BeanUtil.convertMap2List(list, tClass);
     }
 
-    public int createMap(Map<String,Object> param){
-        CreateCriteria createCriteria=createCreateCriteria(param);
-        int succeess=sqlSessionTemplate.insert(CREATE,createCriteria);
-        return succeess;
+    private void createMap(Map<String, Object> param) {
+        CreateCriteria createCriteria = createCreateCriteria(param);
+        int succeess = sqlSessionTemplate.insert(CREATE, createCriteria);
     }
 
-    public <T> int create(T bean){
-        Map<String,Object> map=BeanUtil.convertBean2Map(bean);
-        return createMap(map);
+    public <T> void create(T bean) {
+        Map<String, Object> map = BeanUtil.convertBean2Map(bean);
+        createMap(map);
     }
-
-
 
 
 }

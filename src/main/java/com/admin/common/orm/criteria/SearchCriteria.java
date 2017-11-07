@@ -1,7 +1,7 @@
 package com.admin.common.orm.criteria;
 
 
-import com.admin.common.orm.Condition;
+import com.admin.common.orm.condition.Condition;
 
 import java.util.List;
 

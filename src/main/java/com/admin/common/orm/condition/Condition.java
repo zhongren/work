@@ -1,4 +1,4 @@
-package com.admin.common.orm;
+package com.admin.common.orm.condition;
 
 /**
  * @author zhongren
@@ -31,5 +31,16 @@ public class Condition {
 
     public void setOp(String op) {
         this.op = op;
+    }
+
+    public Condition(String column, String op,Object value ) {
+        this.column = column;
+        this.value = value;
+        this.op = op;
+    }
+
+    public Condition(String column, Object value) {
+        this.column = column;
+        this.value = value;
     }
 }
