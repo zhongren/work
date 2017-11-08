@@ -32,7 +32,7 @@
         <property name="dataSource" ref="dataSource" />
         <!-- 指定MyBatis配置文件路径 -->
         <property name="configLocation" value="classpath:xml/application-mybatis.xml"/>
-        <property name="mapperLocations" value="classpath*:com/admin/mapper/**/*Mapper.xml"/>
+        <property name="mapperLocations" value="classpath*:com/admin/**/*Mapper.xml"/>
     </bean>
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
