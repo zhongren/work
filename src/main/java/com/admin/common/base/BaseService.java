@@ -1,11 +1,9 @@
-package com.admin.service;
+package com.admin.common.base;
 
-import com.admin.common.base.PageInfoBean;
-import com.admin.common.base.ParamBean;
-import com.admin.common.orm.BaseRepo;
+import com.admin.common.bean.PageInfoBean;
+import com.admin.common.bean.ParamBean;
 import com.admin.common.util.PageUtil;
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -29,12 +27,14 @@ public abstract class BaseService {
     @PostConstruct
     public abstract void init();
 
-    public PageInfoBean findPage(ParamBean paramBean) {
+    public PageInfoBean page(ParamBean paramBean) {
         Page page = PageUtil.startPage(paramBean);
         List<Map<String, Object>> data = baseRepo.findMapList(paramBean);
         return createPageInfo(page, data);
     }
-
+    public<T> Object create(T bean){
+        return baseRepo.create(bean);
+    }
     private PageInfoBean createPageInfo(Page page, List<Map<String, Object>> data) {
         PageInfoBean pageInfoBean = new PageInfoBean();
         pageInfoBean.setData(data);
@@ -44,5 +44,4 @@ public abstract class BaseService {
         pageInfoBean.setPages(page.getPages());
         return pageInfoBean;
     }
-
 }

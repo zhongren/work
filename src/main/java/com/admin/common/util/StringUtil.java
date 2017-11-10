@@ -13,8 +13,8 @@ public class StringUtil {
         try {
             return Integer.valueOf(str);
         }catch (NumberFormatException e){
-           // e.printStackTrace();
-            return 0;
+            e.printStackTrace();
+            return null;
         }
     }
     public static boolean isEmpty(String str){

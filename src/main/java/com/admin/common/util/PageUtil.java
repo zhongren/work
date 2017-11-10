@@ -1,6 +1,6 @@
 package com.admin.common.util;
 
-import com.admin.common.base.ParamBean;
+import com.admin.common.bean.ParamBean;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 

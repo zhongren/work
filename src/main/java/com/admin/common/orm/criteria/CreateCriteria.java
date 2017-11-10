@@ -8,6 +8,7 @@ import java.util.List;
  * Created by zr on 2017/8/13.
  */
 public class CreateCriteria {
+    private Object id;
     private String tableName;
     private List<Condition> conditionList;
 
@@ -29,5 +30,13 @@ public class CreateCriteria {
 
     public CreateCriteria(String tableName) {
         this.tableName = tableName;
+    }
+
+    public Object getId() {
+        return id;
+    }
+
+    public void setId(Object id) {
+        this.id = id;
     }
 }

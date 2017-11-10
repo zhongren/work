@@ -1,13 +1,13 @@
 package com.admin.common.exception.enums;
 
 
-import com.admin.common.base.ResultBean;
+import com.admin.common.bean.ResultBean;
 
 /**
  * Created by zhongr on 2017/8/25.
  */
 public enum ParamEnum {
-    PARAM_LACK(ResultBean.FAIL, "参数缺失");
+    PARAM_LACK(ResultBean.FAIL, "参数错误"),PK_LACK(ResultBean.FAIL, "主键ID缺失");
     private String code;
     private String msg;
 

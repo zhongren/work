@@ -1,15 +1,11 @@
-package com.admin.controller;
+package com.admin.common.base;
 
-import com.admin.common.base.ParamBean;
-import com.admin.common.base.ResultBean;
-import com.admin.common.exception.BaseException;
+import com.admin.common.bean.ParamBean;
+import com.admin.common.bean.ResultBean;
 import com.admin.common.util.JsonUtil;
 import com.admin.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -22,13 +18,13 @@ import java.util.*;
  */
 public class BaseController {
     private Logger logger = LoggerFactory.getLogger(BaseController.class);
-
+/*
     @ExceptionHandler(value = BaseException.class)
     public ResponseEntity<ResultBean> baseExceptionHandler(BaseException exception) {
         logger.error(exception.getCode() + ":" + exception.getMessage(), exception);
         return null;
     }
-
+*/
 
     protected String getBaseUrl() {
         String baseUrl = getRequest().getScheme() + "://" + getRequest().getServerName()
@@ -115,8 +111,10 @@ public class BaseController {
      */
     protected ParamBean getParamBean() {
         ParamBean paramModel = new ParamBean();
-        paramModel.setPageNum(StringUtil.getInteger(getParam(ParamBean.PAGE_NUM)));
-        paramModel.setPageSize(StringUtil.getInteger(getParam(ParamBean.PAGE_SIZE)));
+        Integer pageNum=StringUtil.getInteger(getParam(ParamBean.PAGE_NUM));
+        Integer pageSize=StringUtil.getInteger(getParam(ParamBean.PAGE_SIZE));
+        paramModel.setPageNum(pageNum==null?1:pageNum);
+        paramModel.setPageSize(pageSize==null?20:pageSize);
         paramModel.setOrderType(getParam(ParamBean.ORDER_TYPE));
         paramModel.setOrderField(getParam(ParamBean.ORDER_FIELD));
         paramModel.putAll(getParamMap(ParamBean.PAGE_NUM, ParamBean.PAGE_SIZE, ParamBean.ORDER_TYPE, ParamBean.ORDER_FIELD));

@@ -1,4 +1,6 @@
-package com.admin.common.base;
+package com.admin.common.bean;
+
+import com.admin.common.base.BaseBean;
 
 import java.util.List;
 import java.util.Map;
@@ -7,7 +9,7 @@ import java.util.Map;
  * @author zhongren
  * @date 2017/11/8
  */
-public class PageInfoBean {
+public class PageInfoBean extends BaseBean {
     private Integer pageNum;
     private Integer pageSize;
     private Long total;

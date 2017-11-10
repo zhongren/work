@@ -1,11 +1,12 @@
-package com.admin.common.base;
+package com.admin.common.bean;
 
+import com.admin.common.base.BaseBean;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
-public class ResultBean {
+public class ResultBean extends BaseBean{
 
     // 定义jackson对象
     private static final ObjectMapper MAPPER = new ObjectMapper();

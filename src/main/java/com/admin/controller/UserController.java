@@ -1,8 +1,9 @@
-package com.admin.controller.sys;
+package com.admin.controller;
 
-import com.admin.common.base.ParamBean;
-import com.admin.controller.BaseController;
-import com.admin.service.sys.UserService;
+import com.admin.common.bean.ParamBean;
+import com.admin.common.base.BaseController;
+import com.admin.service.UserService;
+import com.admin.model.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,14 @@ public class UserController extends BaseController {
     @ResponseBody
     public String page() {
         ParamBean paramBean = getParamBean();
-        return success(userService.findPage(paramBean), "分页查询");
+        return success(userService.page(paramBean), "分页查询");
+    }
+
+    @RequestMapping(value = "create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public String create() {
+        UserVo userVo=new UserVo();
+        userVo.setUserName("zr");
+        return success(userService.create(userVo), "添加");
     }
 }

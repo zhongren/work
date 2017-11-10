@@ -1,7 +1,7 @@
-package com.admin.service.sys;
+package com.admin.service;
 
 import com.admin.repo.repo.UserRepo;
-import com.admin.service.BaseService;
+import com.admin.common.base.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

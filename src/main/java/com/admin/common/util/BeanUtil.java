@@ -51,6 +51,7 @@ public class BeanUtil extends BeanUtils {
             for (Field field : fields) {
                 String key = field.getName();
                 Object value = getNestedProperty(bean, field.getName());
+                key=StringUtil.camelToUnderline(key);
                 map.put(key, value);
             }
         } catch (Exception e) {

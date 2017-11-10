@@ -1,4 +1,4 @@
-package com.admin.common.orm;
+package com.admin.common.base;
 
 
 import com.admin.common.exception.ParamValidateException;
@@ -6,8 +6,10 @@ import com.admin.common.exception.enums.ParamEnum;
 import com.admin.common.orm.condition.Condition;
 import com.admin.common.orm.condition.ConditionMap;
 import com.admin.common.orm.condition.Op;
+import com.admin.common.orm.condition.UpdateValue;
 import com.admin.common.orm.criteria.CreateCriteria;
 import com.admin.common.orm.criteria.SearchCriteria;
+import com.admin.common.orm.criteria.UpdateCriteria;
 import com.admin.common.util.BeanUtil;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,10 @@ import java.util.Map;
  * Created by ZR_a on 2017/8/2.
  */
 public abstract class BaseRepo {
+    private static String PK = "id";
     private static String FIND = "com.admin.common.orm.BaseMapper.find";
     private static String CREATE = "com.admin.common.orm.BaseMapper.create";
+    private static String UPDATE = "com.admin.common.orm.BaseMapper.update";
     @Autowired
     protected SqlSessionTemplate sqlSessionTemplate;
 
@@ -117,6 +121,25 @@ public abstract class BaseRepo {
         return createCriteria;
     }
 
+    private UpdateCriteria createUpdateCriteria(Map<String, Object> param, Condition... conditions) {
+        if (param == null || param.isEmpty()) {
+            throw new ParamValidateException(ParamEnum.PARAM_LACK);
+        }
+        Table table = AnnotationUtils.findAnnotation(this.getClass(), Table.class);
+        String tableName = table.name();
+        UpdateCriteria updateCriteria = new UpdateCriteria(tableName);
+        List<UpdateValue> updateValueList = new ArrayList<>();
+        for (Map.Entry<String, Object> map : param.entrySet()) {
+            UpdateValue updateValue = new UpdateValue(map.getKey(), map.getValue());
+            updateValueList.add(updateValue);
+        }
+        updateCriteria.setUpdateValueList(updateValueList);
+        if (conditions != null && conditions.length > 0) {
+            updateCriteria.setConditionList(Arrays.asList(conditions));
+        }
+        return updateCriteria;
+    }
+
     /**
      * 查询对象（map）集合
      *
@@ -184,6 +207,11 @@ public abstract class BaseRepo {
         return BeanUtil.convertMap2Bean(map, tClass);
     }
 
+    public <T> T findById(Object value, Class<T> tClass, String... columns) {
+        Map<String, Object> map = findMapBy(PK, value, columns);
+        return BeanUtil.convertMap2Bean(map, tClass);
+    }
+
     /**
      * 根据条件查询对象（map）集合,转换为对象集合（class）
      *
@@ -199,15 +227,42 @@ public abstract class BaseRepo {
         return BeanUtil.convertMap2List(list, tClass);
     }
 
-    private void createMap(Map<String, Object> param) {
+    private Object createMap(Map<String, Object> param) {
         CreateCriteria createCriteria = createCreateCriteria(param);
-        int succeess = sqlSessionTemplate.insert(CREATE, createCriteria);
+        sqlSessionTemplate.insert(CREATE, createCriteria);
+        return createCriteria.getId();
     }
 
-    public <T> void create(T bean) {
+    private int updateMap(Map<String, Object> param, Condition condition) {
+        UpdateCriteria updateCriteria = createUpdateCriteria(param, condition);
+        return sqlSessionTemplate.update(UPDATE, updateCriteria);
+    }
+
+    /**
+     * 创建对象
+     *
+     * @param bean
+     * @param <T>
+     * @return
+     */
+    public <T> Object create(T bean) {
         Map<String, Object> map = BeanUtil.convertBean2Map(bean);
-        createMap(map);
+        return createMap(map);
     }
 
+    /**
+     * 更新对象
+     *
+     * @param by    更新依赖的字段
+     * @param value 更新依赖的字段的值
+     * @param bean
+     * @param <T>
+     * @return
+     */
+    public <T> int update(String by, Object value, T bean) {
+        Map<String, Object> map = BeanUtil.convertBean2Map(bean);
+        Condition condition = new Condition(by, Op.EQ, value);
+        return updateMap(map, condition);
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.admin.common.base;
+package com.admin.common.bean;
 
 import java.util.HashMap;
 

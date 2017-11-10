@@ -1,12 +1,11 @@
 package com.admin.repo.repo;
 
-import com.admin.common.orm.BaseRepo;
+import com.admin.common.base.BaseRepo;
 import com.admin.common.orm.condition.Condition;
 import com.admin.common.orm.condition.ConditionMap;
 import com.admin.common.orm.condition.Op;
 import org.springframework.stereotype.Repository;
 
-import javax.crypto.spec.OAEPParameterSpec;
 import javax.persistence.Table;
 
 /**
