@@ -2,8 +2,9 @@ package com.admin.controller;
 
 import com.admin.common.bean.ParamBean;
 import com.admin.common.base.BaseController;
+import com.admin.model.user.UserVo;
 import com.admin.service.UserService;
-import com.admin.model.vo.UserVo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
