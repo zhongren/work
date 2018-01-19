@@ -30,10 +30,10 @@ public class BeanUtil extends BeanUtils {
     }
 
     public static <T> List<T> convertMap2List(List<Map<String, Object>> list, Class<T> tClass) {
-        List<T> data = new ArrayList<>();
         if (list == null || list.isEmpty() || tClass == null) {
             return null;
         }
+        List<T> data = new ArrayList<>();
         for (Map<String, Object> map : list) {
             T t = convertMap2Bean(map, tClass);
             data.add(t);

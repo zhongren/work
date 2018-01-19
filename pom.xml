@@ -413,7 +413,7 @@
             </dependency>
 
 
-            <!-- Cros Filter Dependency -->
+            <!-- Cros Filter  -->
             <dependency>
                 <groupId>com.thetransactioncompany</groupId>
                 <artifactId>cors-filter</artifactId>
@@ -426,6 +426,12 @@
                 <version>4.2.1</version>
             </dependency>
 
+            <!-- lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.10</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <!-- Commmon Dependencies -->
@@ -630,6 +636,11 @@
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
+        </dependency>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
     <profiles>

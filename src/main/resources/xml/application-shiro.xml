@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 没有权限或者失败后跳转的页面 -->
+        <property name="loginUrl" value="/auth/noLogin"/>
+        <!-- successUrl不配置，默认跳到上一个页面 -->
+        <!-- <property name="successUrl" value="/auth/loginSuccess"/>-->
+        <property name="unauthorizedUrl" value="/auth/noAuth"/>
+        <property name="filterChainDefinitions">
+            <!-- anon perms authc-->
+            <!--
+         perm/sys/menus = peperm[sys:menus]
+                /user/list = perms[user:list]
+                /user/create = perms[user:create]
+            -->
+            <value>
+                /auth/login = anon
+
+                /** = anon
+            </value>
+        </property>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="myRealm"/>
+        <property name="cacheManager" ref="myCacheManager"/>
+    </bean>
+    <bean id="myRealm" class="com.admin.common.shiro.ShiroRealm">
+        <!-- 配置密码匹配器 -->
+        <property name="credentialsMatcher" ref="myCredentialsMatcher"/>
+    </bean>
+    <!-- 凭证匹配器 -->
+    <bean id="myCredentialsMatcher" class="com.admin.common.shiro.CredentialsMatcher">
+    </bean>
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+    <!-- 缓存管理器 -->
+    <bean id="myCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:xml/shiro-ehcache.xml"/>
+    </bean>
+</beans>

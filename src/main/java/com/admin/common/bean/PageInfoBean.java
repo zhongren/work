@@ -1,6 +1,6 @@
 package com.admin.common.bean;
 
-import com.admin.common.base.BaseBean;
+import com.admin.common.base.bean.BaseBean;
 
 import java.util.List;
 import java.util.Map;

@@ -26,6 +26,7 @@ import java.util.Map;
  * Created by ZR_a on 2017/8/2.
  */
 public abstract class BaseRepo {
+    public static String BASE_MAPPER = "com.admin.mapper.";
     private static String PK = "id";
     private static String FIND = "com.admin.common.orm.BaseMapper.find";
     private static String CREATE = "com.admin.common.orm.BaseMapper.create";
