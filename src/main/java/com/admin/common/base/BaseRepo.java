@@ -207,6 +207,14 @@ public abstract class BaseRepo {
         return BeanUtil.convertMap2Bean(map, tClass);
     }
 
+    /**
+     *  根据主键ID查询对象（map）,转换为对象（class）
+     * @param value
+     * @param tClass
+     * @param columns
+     * @param <T>
+     * @return
+     */
     public <T> T findById(Object value, Class<T> tClass, String... columns) {
         Map<String, Object> map = findMapBy(PK, value, columns);
         return BeanUtil.convertMap2Bean(map, tClass);
@@ -253,8 +261,8 @@ public abstract class BaseRepo {
     /**
      * 更新对象
      *
-     * @param by    更新依赖的字段
-     * @param value 更新依赖的字段的值
+     * @param by    更新的条件字段
+     * @param value 更新的条件字段的值
      * @param bean
      * @param <T>
      * @return
