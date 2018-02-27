@@ -29,6 +29,7 @@ public abstract class BaseService {
 
     /**
      * 分页查询
+     *
      * @param paramBean
      * @return
      */
@@ -40,6 +41,7 @@ public abstract class BaseService {
 
     /**
      * 根据条件查询对象
+     *
      * @param field
      * @param value
      * @param tClass
@@ -47,14 +49,35 @@ public abstract class BaseService {
      * @param <T>
      * @return
      */
-    public <T> T findBy(String field,String value,Class<T> tClass, String... columns){
-        return baseRepo.findBy(field,value,tClass,columns);
+    public <T> T findBy(String field, String value, Class<T> tClass, String... columns) {
+        return baseRepo.findBy(field, value, tClass, columns);
 
     }
 
-    public<T> Object create(T bean){
+    /**
+     * 创建对象
+     *
+     * @param bean
+     * @param <T>
+     * @return
+     */
+    public <T> Object create(T bean) {
         return baseRepo.create(bean);
     }
+
+    /**
+     * 更新对象
+     *
+     * @param by
+     * @param value
+     * @param bean
+     * @param <T>
+     * @return
+     */
+    public <T> Object update(String by, Object value, T bean) {
+        return baseRepo.update(by, value, bean);
+    }
+
     private PageInfoBean createPageInfo(Page page, List<Map<String, Object>> data) {
         PageInfoBean pageInfoBean = new PageInfoBean();
         pageInfoBean.setData(data);
