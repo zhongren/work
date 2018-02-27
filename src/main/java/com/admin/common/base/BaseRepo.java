@@ -1,7 +1,7 @@
 package com.admin.common.base;
 
 
-import com.admin.common.exception.ParamValidateException;
+import com.admin.common.exception.ParamException;
 import com.admin.common.exception.enums.ParamEnum;
 import com.admin.common.orm.condition.Condition;
 import com.admin.common.orm.condition.ConditionMap;
@@ -108,7 +108,7 @@ public abstract class BaseRepo {
 
     private CreateCriteria createCreateCriteria(Map<String, Object> param) {
         if (param == null || param.isEmpty()) {
-            throw new ParamValidateException(ParamEnum.PARAM_LACK);
+            throw new ParamException(ParamEnum.PARAM_LACK);
         }
         Table table = AnnotationUtils.findAnnotation(this.getClass(), Table.class);
         String tableName = table.name();
@@ -124,7 +124,7 @@ public abstract class BaseRepo {
 
     private UpdateCriteria createUpdateCriteria(Map<String, Object> param, Condition... conditions) {
         if (param == null || param.isEmpty()) {
-            throw new ParamValidateException(ParamEnum.PARAM_LACK);
+            throw new ParamException(ParamEnum.PARAM_LACK);
         }
         Table table = AnnotationUtils.findAnnotation(this.getClass(), Table.class);
         String tableName = table.name();

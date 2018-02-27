@@ -6,10 +6,10 @@ import com.admin.common.exception.enums.ParamEnum;
  * @author zhongren
  * @date 2017/11/7
  */
-public class ParamValidateException extends BaseException {
+public class ParamException extends BaseException {
 
 
-    public ParamValidateException(ParamEnum paramEnum) {
+    public ParamException(ParamEnum paramEnum) {
         super(paramEnum.getMsg(), paramEnum.getCode());
     }
 

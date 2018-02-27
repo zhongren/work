@@ -110,17 +110,17 @@ public class BaseController {
      * @return
      */
     protected ParamBean getParamBean() {
-        ParamBean paramModel = new ParamBean();
+        ParamBean paramBean = new ParamBean();
         Integer pageNum=StringUtil.getInteger(getParam(ParamBean.PAGE_NUM));
         Integer pageSize=StringUtil.getInteger(getParam(ParamBean.PAGE_SIZE));
-        paramModel.setPageNum(pageNum==null?1:pageNum);
-        paramModel.setPageSize(pageSize==null?20:pageSize);
-        paramModel.setOrderType(getParam(ParamBean.ORDER_TYPE));
-        paramModel.setOrderField(getParam(ParamBean.ORDER_FIELD));
-        paramModel.putAll(getParamMap(ParamBean.PAGE_NUM, ParamBean.PAGE_SIZE, ParamBean.ORDER_TYPE, ParamBean.ORDER_FIELD));
-        soutParam(paramModel);
-        filterParam(paramModel);
-        return paramModel;
+        paramBean.setPageNum(pageNum==null?1:pageNum);
+        paramBean.setPageSize(pageSize==null?20:pageSize);
+        paramBean.setOrderType(getParam(ParamBean.ORDER_TYPE));
+        paramBean.setOrderField(getParam(ParamBean.ORDER_FIELD));
+        paramBean.putAll(getParamMap(ParamBean.PAGE_NUM, ParamBean.PAGE_SIZE, ParamBean.ORDER_TYPE, ParamBean.ORDER_FIELD));
+        soutParam(paramBean);
+        filterParam(paramBean);
+        return paramBean;
     }
 
     /**
