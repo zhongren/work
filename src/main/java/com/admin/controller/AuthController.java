@@ -36,7 +36,6 @@ public class AuthController extends BaseController{
         try {
             subject.login(token);
             UserVo user = (UserVo) subject.getPrincipal();
-            //登录成功的话,返回登录的用户名
             return success(user.getAccount(),"登陆成功");
         } catch (UnknownAccountException e) {
             throw new AuthException(AuthEnum.UNKNOWN_ACCOUNT);
