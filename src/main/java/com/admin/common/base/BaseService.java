@@ -61,8 +61,8 @@ public abstract class BaseService {
      * @param <T>
      * @return
      */
-    public <T> Object create(T bean) {
-        return baseRepo.create(bean);
+    public <T> Long create(T bean) {
+        return (Long) baseRepo.create(bean);
     }
 
     /**
@@ -74,7 +74,7 @@ public abstract class BaseService {
      * @param <T>
      * @return
      */
-    public <T> Object update(String by, Object value, T bean) {
+    public <T> int update(String by, Object value, T bean) {
         return baseRepo.update(by, value, bean);
     }
 

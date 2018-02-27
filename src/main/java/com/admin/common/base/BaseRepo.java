@@ -242,7 +242,7 @@ public abstract class BaseRepo {
         return createCriteria.getId();
     }
 
-    private Object updateMap(Map<String, Object> param, Condition condition) {
+    private int updateMap(Map<String, Object> param, Condition condition) {
         UpdateCriteria updateCriteria = createUpdateCriteria(param, condition);
         return sqlSessionTemplate.update(UPDATE, updateCriteria);
     }
@@ -268,7 +268,7 @@ public abstract class BaseRepo {
      * @param <T>
      * @return
      */
-    public <T> Object update(String by, Object value, T bean) {
+    public <T> int update(String by, Object value, T bean) {
         Map<String, Object> map = BeanUtil.convertBean2Map(bean);
         Condition condition = new Condition(by, Op.EQ, value);
         return updateMap(map, condition);
