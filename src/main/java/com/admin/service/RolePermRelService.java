@@ -1,8 +1,10 @@
 package com.admin.service;
 
-import com.admin.base.BaseService;
-import com.admin.repo.UserRepo;
-import com.admin.vo.system.UserVo;
+
+import com.admin.common.base.BaseService;
+
+import com.admin.model.user.UserVo;
+import com.admin.repo.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,7 @@ public class RolePermRelService extends BaseService {
         setBaseRepo(userRepo);
     }
 
-    public UserVo findByUserName(String userName){
-       return findBy("user_name",userName,UserVo.class);
+    public UserVo findByUserName(String userName) {
+        return findBy("user_name", userName, UserVo.class);
     }
 }

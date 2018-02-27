@@ -664,14 +664,14 @@
         <finalName>newAdmin</finalName>
 
         <resources>
-            <!-- 扫描mapper.xml文件 -->
+            <!-- 扫描mapper文件 -->
             <resource>
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.xml</include>
                 </includes>
             </resource>
-            <!-- 扫描spring配置文件 -->
+            <!-- 扫描配置文件 -->
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>

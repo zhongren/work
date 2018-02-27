@@ -1,11 +1,11 @@
 package com.admin.common.shiro;
 
 
+import com.admin.common.SysConstants;
 import com.admin.common.util.ApplicationContextUtil;
 import com.admin.common.util.StringUtil;
 import com.admin.model.perm.PermVo;
 import com.admin.model.sys.MenuPermVo;
-import com.admin.model.sysenum.UserStatusEnum;
 import com.admin.model.user.UserVo;
 import com.admin.service.SysService;
 import com.admin.service.UserService;
@@ -17,7 +17,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.util.HashSet;
 import java.util.List;
@@ -28,10 +28,14 @@ import java.util.Set;
  */
 public class ShiroRealm extends AuthorizingRealm {
     private Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
-    @Autowired
-    private SysService sysService;
 
-    // 菜单权限
+
+    /**
+     * 菜单权限
+     *
+     * @param principalCollection
+     * @return
+     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         UserVo userVo = (UserVo) principalCollection.getPrimaryPrincipal();
@@ -41,7 +45,13 @@ public class ShiroRealm extends AuthorizingRealm {
         return authorization;
     }
 
-    // 登录验证
+    /**
+     * 登录验证
+     *
+     * @param authenticationToken
+     * @return
+     * @throws AuthenticationException
+     */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
@@ -51,7 +61,7 @@ public class ShiroRealm extends AuthorizingRealm {
             //用户不存在
             throw new UnknownAccountException();
         }
-        if (userVo.getStatus() == UserStatusEnum.DISABLE.getCode()) {
+        if (userVo.getStatus().equals(SysConstants.USER_STATUS_UNACTIVE)) {
             //用户被禁用
             throw new DisabledAccountException();
         }
@@ -68,10 +78,13 @@ public class ShiroRealm extends AuthorizingRealm {
         super.setCredentialsMatcher(myCredentialsMatcher);
     }
 
+    /**
+     * 根据ID获取用户权限
+     *
+     * @param userId
+     * @return
+     */
     private Set<String> findUserPerms(Long userId) {
-        if (userId == null) {
-            return null;
-        }
         SysService sysService = ApplicationContextUtil.getBean(SysService.class);
         List<PermVo> permVoList = sysService.findUserPermList(userId);
         Set<String> userPerms = new HashSet<>();

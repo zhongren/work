@@ -27,11 +27,31 @@ public abstract class BaseService {
     @PostConstruct
     public abstract void init();
 
+    /**
+     * 分页查询
+     * @param paramBean
+     * @return
+     */
     public PageInfoBean page(ParamBean paramBean) {
         Page page = PageUtil.startPage(paramBean);
         List<Map<String, Object>> data = baseRepo.findMapList(paramBean);
         return createPageInfo(page, data);
     }
+
+    /**
+     * 根据条件查询对象
+     * @param field
+     * @param value
+     * @param tClass
+     * @param columns
+     * @param <T>
+     * @return
+     */
+    public <T> T findBy(String field,String value,Class<T> tClass, String... columns){
+        return baseRepo.findBy(field,value,tClass,columns);
+
+    }
+
     public<T> Object create(T bean){
         return baseRepo.create(bean);
     }

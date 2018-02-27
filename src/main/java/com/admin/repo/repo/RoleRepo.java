@@ -1,9 +1,10 @@
 package com.admin.repo.repo;
 
-import com.admin.base.BaseRepo;
-import com.admin.base.CriterionMap;
-import com.admin.base.Expression;
-import com.admin.base.Op;
+
+import com.admin.common.base.BaseRepo;
+import com.admin.common.orm.condition.Condition;
+import com.admin.common.orm.condition.ConditionMap;
+import com.admin.common.orm.condition.Op;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Table;
@@ -13,13 +14,13 @@ import javax.persistence.Table;
  */
 @Repository
 @Table(name = "tb_role")
-public class RoleRepo extends BaseRepo{
+public class RoleRepo extends BaseRepo {
 
     @Override
     public void init() {
-        CriterionMap criterionMap=new CriterionMap();
-        criterionMap.put("id",new Expression("id", Op.EQ));
-        criterionMap.put("name",new Expression("name", Op.LIKE));
-        setCriterionMap(criterionMap);
+        ConditionMap conditionMap=new ConditionMap();
+        conditionMap.put("id",new Condition("id", Op.EQ));
+        conditionMap.put("name",new Condition("name", Op.LIKE));
+        setConditionMap(conditionMap);
     }
 }

@@ -1,6 +1,5 @@
 package com.admin.model.user;
 
-import com.admin.common.base.bean.BaseBean;
 import com.admin.common.base.bean.BaseVo;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
@@ -17,7 +16,7 @@ public class UserVo extends BaseVo {
     private String name;
     private String password;
     private String account;
-    private int status;
+    private Integer status;
 
 
     public UserPo vo2Po(UserVo vo) {

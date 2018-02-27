@@ -1,8 +1,9 @@
 package com.admin.service;
 
-import com.admin.base.BaseService;
-import com.admin.repo.RoleRepo;
-import com.admin.vo.system.RoleVo;
+
+import com.admin.common.base.BaseService;
+import com.admin.model.role.RoleVo;
+import com.admin.repo.repo.RoleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

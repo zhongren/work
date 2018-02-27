@@ -21,7 +21,7 @@
     </bean>
     <!-- 数据库配置 -->
     <import resource="classpath:xml/application-database.xml"/>
-    <!-- shiro配置
-    <import resource="classpath:spring/application-shiro.xml"/>
-    -->
+    <!-- shiro配置-->
+    <import resource="classpath:xml/application-shiro.xml"/>
+
 </beans>

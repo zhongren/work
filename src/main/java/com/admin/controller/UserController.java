@@ -31,7 +31,7 @@ public class UserController extends BaseController {
     @ResponseBody
     public String create() {
         UserVo userVo=new UserVo();
-        userVo.setUserName("zr");
+        userVo.setAccount("ccc");
         return success(userService.create(userVo), "添加");
     }
 }
