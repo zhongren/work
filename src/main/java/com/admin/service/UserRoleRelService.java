@@ -2,7 +2,7 @@ package com.admin.service;
 
 
 import com.admin.common.base.BaseService;
-import com.admin.model.role.RoleVo;
+import com.admin.model.sys.RoleVo;
 import com.admin.repo.repo.UserRoleRelRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -4,7 +4,7 @@ package com.admin.repo.repo;
 import com.admin.common.base.BaseRepo;
 import com.admin.common.orm.condition.ConditionMap;
 import com.admin.common.util.BeanUtil;
-import com.admin.model.perm.PermVo;
+import com.admin.model.sys.PermVo;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Table;

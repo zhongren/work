@@ -3,9 +3,7 @@ package com.admin.common.shiro;
 
 import com.admin.common.SysConstants;
 import com.admin.common.util.ApplicationContextUtil;
-import com.admin.common.util.StringUtil;
-import com.admin.model.perm.PermVo;
-import com.admin.model.sys.MenuPermVo;
+import com.admin.model.sys.PermVo;
 import com.admin.model.user.UserVo;
 import com.admin.service.SysService;
 import com.admin.service.UserService;
@@ -79,7 +77,7 @@ public class ShiroRealm extends AuthorizingRealm {
     }
 
     /**
-     * 根据ID获取用户权限
+     * 获取用户权限
      *
      * @param userId
      * @return
@@ -88,12 +86,13 @@ public class ShiroRealm extends AuthorizingRealm {
         SysService sysService = ApplicationContextUtil.getBean(SysService.class);
         List<PermVo> permVoList = sysService.findUserPermList(userId);
         Set<String> userPerms = new HashSet<>();
-
-        for (PermVo permVo : permVoList) {
-            String permUrl = permVo.getUrl();
-            String menuUrl = permVo.getMenuUrl();
-            String perm = menuUrl + ":" + permUrl;
-            userPerms.add(perm);
+        if(permVoList!=null&&!permVoList.isEmpty()){
+            for (PermVo permVo : permVoList) {
+                String permUrl = permVo.getUrl();
+                String menuUrl = permVo.getMenuUrl();
+                String perm = menuUrl + ":" + permUrl;
+                userPerms.add(perm);
+            }
         }
         return userPerms;
     }

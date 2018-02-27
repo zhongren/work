@@ -1,7 +1,7 @@
 package com.admin.service;
 
 
-import com.admin.model.perm.PermVo;
+import com.admin.model.sys.PermVo;
 import com.admin.repo.repo.PermRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

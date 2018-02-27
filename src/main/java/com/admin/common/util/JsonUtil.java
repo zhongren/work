@@ -21,8 +21,8 @@ public class JsonUtil {
      */
     public static String objectToJson(Object data) {
     	try {
-			String string = MAPPER.writeValueAsString(data);
-			return string;
+			String json = MAPPER.writeValueAsString(data);
+			return json;
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -36,7 +36,7 @@ public class JsonUtil {
      * @param beanType 对象中的object类型
      * @return
      */
-    public static <T> T jsonToPojo(String jsonData, Class<T> beanType) {
+    public static <T> T jsonToBean(String jsonData, Class<T> beanType) {
         try {
             T t = MAPPER.readValue(jsonData, beanType);
             return t;
@@ -51,11 +51,11 @@ public class JsonUtil {
      * <p>Title: jsonToList</p>
      * <p>Description: </p>
      * @param jsonData
-     * @param beanType
+     * @param tClass
      * @return
      */
-    public static <T>List<T> jsonToList(String jsonData, Class<T> beanType) {
-    	JavaType javaType = MAPPER.getTypeFactory().constructParametricType(List.class, beanType);
+    public static <T>List<T> jsonToList(String jsonData, Class<T> tClass) {
+    	JavaType javaType = MAPPER.getTypeFactory().constructParametricType(List.class, tClass);
     	try {
     		List<T> list = MAPPER.readValue(jsonData, javaType);
     		return list;
