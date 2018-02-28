@@ -11,6 +11,9 @@ public class StringUtil {
     }
     public static Integer getInteger(String str){
         try {
+            if(StringUtil.isEmpty(str)){
+                return null;
+            }
             return Integer.valueOf(str);
         }catch (NumberFormatException e){
             e.printStackTrace();

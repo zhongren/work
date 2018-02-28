@@ -4,10 +4,11 @@ import com.admin.common.base.bean.BaseBean;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ResultBean extends BaseBean {
-
+public class ResultBean implements Serializable {
+    private static final long serialVersionUID = 1L;
     // 定义jackson对象
     private static final ObjectMapper MAPPER = new ObjectMapper();
 

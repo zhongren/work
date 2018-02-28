@@ -126,7 +126,7 @@ public class BaseController {
     /**
      * 封装返回的json
      */
-    protected String success(Object data, String... msg) {
+    protected ResultBean success(Object data, String... msg) {
         String message = "";
         ResultBean resultBean;
         if (msg.length > 0) {
@@ -135,6 +135,6 @@ public class BaseController {
         } else {
             resultBean = ResultBean.success(data);
         }
-        return JsonUtil.objectToJson(resultBean);
+        return resultBean;
     }
 }

@@ -18,6 +18,27 @@
         <property name="maxUploadSize" value="104857600"/>
         <property name="maxInMemorySize" value="104857600"/>
     </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/html;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>application/json;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
     <!-- 静态资源映射 -->
     <mvc:resources location="/static/lib/" mapping="/lib/**"/>
     <mvc:resources location="/static/app/" mapping="/app/**"/>

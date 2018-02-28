@@ -2,6 +2,7 @@ package com.admin.controller;
 
 import com.admin.common.bean.ParamBean;
 import com.admin.common.base.BaseController;
+import com.admin.common.bean.ResultBean;
 import com.admin.model.user.UserVo;
 import com.admin.service.UserService;
 
@@ -22,14 +23,14 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "page", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public String page() {
+    public ResultBean page() {
         ParamBean paramBean = getParamBean();
         return success(userService.page(paramBean), "分页查询");
     }
 
     @RequestMapping(value = "create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public String create() {
+    public ResultBean create() {
         UserVo userVo=new UserVo();
         userVo.setAccount("ccc");
         return success(userService.create(userVo), "添加");

@@ -1,7 +1,7 @@
 package com.admin.common.shiro;
 
 
-import com.admin.common.SysConstants;
+import com.admin.SysConstants;
 import com.admin.common.util.ApplicationContextUtil;
 import com.admin.model.sys.PermVo;
 import com.admin.model.user.UserVo;

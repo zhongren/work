@@ -1,4 +1,4 @@
-package com.admin.common;
+package com.admin;
 
 public final class SysConstants {
     /**

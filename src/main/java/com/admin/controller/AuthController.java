@@ -2,6 +2,7 @@ package com.admin.controller;
 
 import com.admin.common.base.BaseController;
 import com.admin.common.bean.ParamBean;
+import com.admin.common.bean.ResultBean;
 import com.admin.common.exception.AuthException;
 import com.admin.common.exception.enums.AuthEnum;
 import com.admin.model.user.UserVo;
@@ -12,9 +13,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by ZR_a on 2017/12/2.
@@ -23,13 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("auth")
 public class AuthController extends BaseController{
 
-    @RequestMapping(value = "login",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public String login() {
-        ParamBean paramModel = getParamBean();
-        String account = (String) paramModel.get("account");
-        String password = (String) paramModel.get("password");
-
+    @RequestMapping(value = "login",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_UTF8_VALUE,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultBean login(@RequestBody UserVo userVo) {
+        String account = userVo.getAccount();
+        String password=userVo.getPassword();
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(account, password);
 
