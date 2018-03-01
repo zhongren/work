@@ -4,6 +4,8 @@ import com.admin.common.bean.ParamBean;
 import com.admin.common.bean.ResultBean;
 import com.admin.common.util.JsonUtil;
 import com.admin.common.util.StringUtil;
+import com.admin.model.user.UserVo;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -111,10 +113,10 @@ public class BaseController {
      */
     protected ParamBean getParamBean() {
         ParamBean paramBean = new ParamBean();
-        Integer pageNum=StringUtil.getInteger(getParam(ParamBean.PAGE_NUM));
-        Integer pageSize=StringUtil.getInteger(getParam(ParamBean.PAGE_SIZE));
-        paramBean.setPageNum(pageNum==null?1:pageNum);
-        paramBean.setPageSize(pageSize==null?20:pageSize);
+        Integer pageNum = StringUtil.getInteger(getParam(ParamBean.PAGE_NUM));
+        Integer pageSize = StringUtil.getInteger(getParam(ParamBean.PAGE_SIZE));
+        paramBean.setPageNum(pageNum == null ? 1 : pageNum);
+        paramBean.setPageSize(pageSize == null ? 20 : pageSize);
         paramBean.setOrderType(getParam(ParamBean.ORDER_TYPE));
         paramBean.setOrderField(getParam(ParamBean.ORDER_FIELD));
         paramBean.putAll(getParamMap(ParamBean.PAGE_NUM, ParamBean.PAGE_SIZE, ParamBean.ORDER_TYPE, ParamBean.ORDER_FIELD));
@@ -136,5 +138,15 @@ public class BaseController {
             resultBean = ResultBean.success(data);
         }
         return resultBean;
+    }
+
+    /**
+     * 获取当前登录用户
+     *
+     * @return
+     */
+    public UserVo getLoginUser() {
+        UserVo user = (UserVo) SecurityUtils.getSubject().getPrincipal();
+        return user;
     }
 }

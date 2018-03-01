@@ -3,7 +3,7 @@ package com.admin.common.shiro;
 
 import com.admin.SysConstants;
 import com.admin.common.util.ApplicationContextUtil;
-import com.admin.model.sys.PermVo;
+import com.admin.model.sys.PermPo;
 import com.admin.model.user.UserVo;
 import com.admin.service.SysService;
 import com.admin.service.UserService;
@@ -29,7 +29,7 @@ public class ShiroRealm extends AuthorizingRealm {
 
 
     /**
-     * 菜单权限
+     * 权限
      *
      * @param principalCollection
      * @return
@@ -37,14 +37,11 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         UserVo userVo = (UserVo) principalCollection.getPrimaryPrincipal();
-        Set<String> perms = findUserPerms(userVo.getId());
-        SimpleAuthorizationInfo authorization = new SimpleAuthorizationInfo();
-        authorization.setStringPermissions(perms);
-        return authorization;
+        return getAuthrizationInfo(userVo);
     }
 
     /**
-     * 登录验证
+     * 登录
      *
      * @param authenticationToken
      * @return
@@ -63,7 +60,7 @@ public class ShiroRealm extends AuthorizingRealm {
             //用户被禁用
             throw new DisabledAccountException();
         }
-
+        getAuthrizationInfo(userVo);
         return new SimpleAuthenticationInfo(userVo, userVo.getPassword(), getName());
     }
 
@@ -84,12 +81,12 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     private Set<String> findUserPerms(Long userId) {
         SysService sysService = ApplicationContextUtil.getBean(SysService.class);
-        List<PermVo> permVoList = sysService.findUserPermList(userId);
+        List<PermPo> permPoList = sysService.findUserPermList(userId);
         Set<String> userPerms = new HashSet<>();
-        if(permVoList!=null&&!permVoList.isEmpty()){
-            for (PermVo permVo : permVoList) {
-                String permUrl = permVo.getUrl();
-                String menuUrl = permVo.getMenuUrl();
+        if (permPoList != null && !permPoList.isEmpty()) {
+            for (PermPo permPo : permPoList) {
+                String permUrl = permPo.getUrl();
+                String menuUrl = permPo.getMenuUrl();
                 String perm = menuUrl + ":" + permUrl;
                 userPerms.add(perm);
             }
@@ -97,5 +94,16 @@ public class ShiroRealm extends AuthorizingRealm {
         return userPerms;
     }
 
+    private AuthorizationInfo getAuthrizationInfo(UserVo userVo) {
+        SimpleAuthorizationInfo authorization = new SimpleAuthorizationInfo();
+        if (userVo.getPermSet() != null) {
+            authorization.setStringPermissions(userVo.getPermSet());
+        } else {
+            Set<String> permSet = findUserPerms(userVo.getId());
+            authorization.setStringPermissions(permSet);
+            userVo.setPermSet(authorization.getStringPermissions());
+        }
+        return authorization;
+    }
 
 }

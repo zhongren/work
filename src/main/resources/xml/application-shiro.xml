@@ -18,8 +18,12 @@
             -->
             <value>
                 /auth/login = anon
-
-                /** = anon
+                /user/list = perms[user:list]
+                /user/create = perms[user:create]
+                /user/update = perms[user:update]
+                /user/delete = perms[user:delete]
+                /user/find = perms[user:find]
+                /** = authc
             </value>
         </property>
     </bean>

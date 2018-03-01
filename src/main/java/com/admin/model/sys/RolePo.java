@@ -7,7 +7,7 @@ import lombok.Data;
  * Created by zhongr on 2017/8/28.
  */
 @Data
-public class RoleVo extends BaseVo {
+public class RolePo extends BaseVo {
 
     private String name;
 

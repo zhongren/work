@@ -7,9 +7,9 @@ import lombok.Data;
  * Created by zhongr on 2017/8/28.
  */
 @Data
-public class RolePermRelVo extends BaseVo {
+public class UserRoleRelPo extends BaseVo {
 
+    private Long userId;
     private Long roleId;
-    private Long permId;
 
 }

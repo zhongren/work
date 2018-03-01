@@ -28,11 +28,10 @@ public class AuthController extends BaseController{
         String password=userVo.getPassword();
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(account, password);
-
         try {
             subject.login(token);
             UserVo user = (UserVo) subject.getPrincipal();
-            return success(user.getAccount(),"登陆成功");
+            return success(user,"登陆成功");
         } catch (UnknownAccountException e) {
             throw new AuthException(AuthEnum.UNKNOWN_ACCOUNT);
         } catch (DisabledAccountException e) {

@@ -2,7 +2,7 @@ package com.admin.service;
 
 
 import com.admin.common.base.BaseService;
-import com.admin.model.sys.RoleVo;
+import com.admin.model.sys.RolePo;
 import com.admin.repo.repo.UserRoleRelRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class UserRoleRelService extends BaseService {
         setBaseRepo(userRoleRelRepo);
     }
 
-    public RoleVo findByUserId(String userId){
-       return findBy("user_id",userId,RoleVo.class);
+    public RolePo findByUserId(String userId){
+       return findBy("user_id",userId,RolePo.class);
     }
 }

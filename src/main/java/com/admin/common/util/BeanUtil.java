@@ -22,6 +22,7 @@ public class BeanUtil extends BeanUtils {
         T t = null;
         try {
             t = tClass.newInstance();
+            translateMapProperty(map);
             populate(t, map);
         } catch (Exception e) {
             e.printStackTrace();

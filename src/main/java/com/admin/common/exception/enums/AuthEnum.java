@@ -7,10 +7,10 @@ import com.admin.common.bean.ResultBean;
  * Created by zhongr on 2017/8/25.
  */
 public enum AuthEnum {
-    UNKNOWN_ACCOUNT(ResultBean.NO_AUTH,"用户不存在"),DISABLED_ACCOUNT(ResultBean.NO_AUTH,"用户被禁用,请联系管理员") ,
-    WRONG_PASSWORD(ResultBean.NO_AUTH,"用户名或密码错误"),UNAUTHORIZED(ResultBean.NO_AUTH,"权限不足,请重新登陆") ,UNLOGIN(ResultBean.NO_AUTH,"未登录,请先登陆")  ;
+    UNKNOWN_ACCOUNT(ResultBean.NO_AUTH, "用户不存在"), DISABLED_ACCOUNT(ResultBean.NO_AUTH, "用户被禁用,请联系管理员"),
+    WRONG_PASSWORD(ResultBean.NO_AUTH, "用户名或密码错误"), UNAUTHORIZED(ResultBean.NO_AUTH, "权限不足,请重新登陆"), UNLOGIN(ResultBean.NO_AUTH, "未登录,请先登陆");
     private String code;
-   private String msg;
+    private String msg;
 
     public String getCode() {
         return code;
