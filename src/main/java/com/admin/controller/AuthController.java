@@ -5,6 +5,7 @@ import com.admin.common.bean.ParamBean;
 import com.admin.common.bean.ResultBean;
 import com.admin.common.exception.AuthException;
 import com.admin.common.exception.enums.AuthEnum;
+import com.admin.model.user.UserParamVo;
 import com.admin.model.user.UserVo;
 import org.apache.shiro.SecurityUtils;
 
@@ -23,9 +24,9 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController extends BaseController{
 
     @RequestMapping(value = "login",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_UTF8_VALUE,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultBean login(@RequestBody UserVo userVo) {
-        String account = userVo.getAccount();
-        String password=userVo.getPassword();
+    public ResultBean login(@RequestBody UserParamVo userParamVo) {
+        String account = userParamVo.getAccount();
+        String password=userParamVo.getPassword();
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(account, password);
         try {
@@ -37,6 +38,7 @@ public class AuthController extends BaseController{
         } catch (DisabledAccountException e) {
             throw new AuthException(AuthEnum.DISABLED_ACCOUNT);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new AuthException(AuthEnum.WRONG_PASSWORD);
         }
 

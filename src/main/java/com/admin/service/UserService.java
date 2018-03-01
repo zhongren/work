@@ -1,6 +1,5 @@
 package com.admin.service;
 
-import com.admin.model.user.UserPo;
 import com.admin.model.user.UserVo;
 import com.admin.repo.repo.UserRepo;
 import com.admin.common.base.BaseService;
@@ -26,8 +25,7 @@ public class UserService extends BaseService{
      * @return
      */
     public UserVo findByAccount(String account) {
-        UserPo userPo=userRepo.findBy("account",account,UserPo.class);
-        UserVo userVo=UserPo.po2Vo(userPo);
+        UserVo userVo=userRepo.findBy("account",account,UserVo.class);
         return userVo;
     }
 }

@@ -2,6 +2,7 @@ package com.admin.model.user;
 
 import com.admin.common.base.bean.BaseVo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Set;
 
 /**
@@ -9,9 +10,8 @@ import java.util.Set;
  * @date 2017/11/9
  */
 
-public class UserVo extends BaseVo {
+public class UserParamVo extends BaseVo {
     private String name;
-    @JsonIgnore
     private String password;
     private String account;
     private Integer status;
