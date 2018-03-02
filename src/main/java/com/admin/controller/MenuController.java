@@ -9,6 +9,7 @@ import com.admin.model.sys.MenuVo;
 import com.admin.model.user.UserVo;
 import com.admin.service.SysService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,8 @@ public class MenuController extends BaseController {
     public ResultBean userMenu() {
         Boolean build= StringUtil.getBoolean(getParam("build"));
         MenuVo menuVo=new MenuVo();
-        UserVo userVo= (UserVo)SecurityUtils.getSubject().getPrincipal();
+        Subject subject = SecurityUtils.getSubject();
+        UserVo userVo= (UserVo)subject.getPrincipal();
         List<MenuVo> menuVoList =sysService.findUserMenu(userVo.getId());
         if(!menuVoList.isEmpty()){
             if(build!=null&&build){
