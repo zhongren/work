@@ -1,56 +1,71 @@
 package com.admin.common.util;
 
+import com.admin.common.exception.BaseException;
 import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by zhongr on 2017/7/6.
  */
 public class StringUtil {
-    public static String join(String[] strs){
-        return String.join(",",strs);
+    public static String join(String[] strs) {
+        return String.join(",", strs);
     }
-    public static Integer getInteger(String str){
+
+    public static Integer getInteger(String str) {
         try {
-            if(StringUtil.isEmpty(str)){
+            if (StringUtil.isEmpty(str)) {
                 return null;
             }
             return Integer.valueOf(str);
-        }catch (NumberFormatException e){
-            e.printStackTrace();
-            return null;
+        } catch (NumberFormatException e) {
+            throw new BaseException(e, "数据类型转换错误");
         }
     }
-    public static boolean isEmpty(String str){
+
+    public static Boolean getBoolean(String str) {
+        try {
+            if (StringUtil.isEmpty(str)) {
+                return null;
+            }
+            return Boolean.valueOf(str);
+        } catch (NumberFormatException e) {
+            throw new BaseException(e, "数据类型转换错误");
+        }
+    }
+
+    public static boolean isEmpty(String str) {
         return StringUtils.isEmpty(str);
     }
 
     /**
      * 获取删除后缀的string
+     *
      * @param str
      * @param suffix
      * @return
      */
-    public static String dealSuffix(String str,String suffix){
-        if (isEmpty(str)){
+    public static String dealSuffix(String str, String suffix) {
+        if (isEmpty(str)) {
             return null;
         }
-        str=str.substring(0,str.lastIndexOf(suffix));
+        str = str.substring(0, str.lastIndexOf(suffix));
         return str;
     }
 
     /**
      * 驼峰转换  大写转下划线
+     *
      * @param str
      * @return
      */
     public static String camelToUnderline(String str) {
-        StringBuilder sb=new StringBuilder();
-        for (int i=0;i<str.length();i++){
-            char tmp=str.charAt(i);
-            if (Character.isUpperCase(tmp)){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            char tmp = str.charAt(i);
+            if (Character.isUpperCase(tmp)) {
                 sb.append("_");
                 sb.append(Character.toLowerCase(tmp));
-            }else {
+            } else {
                 sb.append(tmp);
             }
         }
@@ -59,6 +74,7 @@ public class StringUtil {
 
     /**
      * 驼峰转换  下划线转大写
+     *
      * @param str
      * @return
      */
@@ -74,6 +90,7 @@ public class StringUtil {
             return underlineToCamel(str);
         }
     }
+
     public static void main(String[] args) {
 
 

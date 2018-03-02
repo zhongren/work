@@ -79,9 +79,9 @@ public class ShiroRealm extends AuthorizingRealm {
      * @param userId
      * @return
      */
-    private Set<String> findUserPerms(Long userId) {
+    private Set<String> findUserPerm(Long userId) {
         SysService sysService = ApplicationContextUtil.getBean(SysService.class);
-        List<PermPo> permPoList = sysService.findUserPermList(userId);
+        List<PermPo> permPoList = sysService.findUserPerm(userId);
         Set<String> userPerms = new HashSet<>();
         if (permPoList != null && !permPoList.isEmpty()) {
             for (PermPo permPo : permPoList) {
@@ -99,7 +99,7 @@ public class ShiroRealm extends AuthorizingRealm {
         if (userVo.getPermSet() != null) {
             authorization.setStringPermissions(userVo.getPermSet());
         } else {
-            Set<String> permSet = findUserPerms(userVo.getId());
+            Set<String> permSet = findUserPerm(userVo.getId());
             authorization.setStringPermissions(permSet);
             userVo.setPermSet(authorization.getStringPermissions());
         }

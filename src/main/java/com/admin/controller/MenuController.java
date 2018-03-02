@@ -3,15 +3,18 @@ package com.admin.controller;
 import com.admin.common.base.BaseController;
 import com.admin.common.bean.ParamBean;
 import com.admin.common.bean.ResultBean;
+import com.admin.common.util.StringUtil;
+import com.admin.common.util.SysUtil;
+import com.admin.model.sys.MenuVo;
 import com.admin.model.user.UserVo;
-import com.admin.service.UserService;
+import com.admin.service.SysService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zhongren
@@ -20,16 +23,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("menu")
 public class MenuController extends BaseController {
+
     @Autowired
-    private UserService userService;
+    private SysService sysService;
 
-    @RequestMapping(value = "findUserMenus",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "userMenu",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResultBean findUserMenus() {
-        UserVo userVo=getLoginUser();
+    public ResultBean userMenu() {
+        Boolean build= StringUtil.getBoolean(getParam("build"));
+        MenuVo menuVo=new MenuVo();
+        UserVo userVo= (UserVo)SecurityUtils.getSubject().getPrincipal();
+        List<MenuVo> menuVoList =sysService.findUserMenu(userVo.getId());
+        if(!menuVoList.isEmpty()){
+            if(build!=null&&build){
+                for(MenuVo menu:menuVoList){
+                    for(MenuVo menu1:menuVoList){
+                       if(menu1.getParentId().equals(menu.getId())){
+                           menu.getSubMenuVo().add(menu1);
+                       }
+                    }
+                }
+            }
+        }
 
-        return success(null, "分页查询");
+        return success(menuVo);
     }
-
-
 }

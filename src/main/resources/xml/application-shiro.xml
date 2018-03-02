@@ -18,6 +18,7 @@
             -->
             <value>
                 /auth/login = anon
+                /menu/userMenu = anon
                 /user/list = perms[user:list]
                 /user/create = perms[user:create]
                 /user/update = perms[user:update]
