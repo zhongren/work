@@ -32,6 +32,7 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="myRealm"/>
         <property name="cacheManager" ref="myCacheManager"/>
+        <property name="sessionManager" ref="sessionManager" />
     </bean>
     <bean id="myRealm" class="com.admin.common.shiro.ShiroRealm">
         <!-- 配置密码匹配器 -->
@@ -53,4 +54,16 @@
     <bean id="myCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
         <property name="cacheManagerConfigFile" value="classpath:xml/shiro-ehcache.xml"/>
     </bean>
+
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="cacheManager" ref="myCacheManager" />
+        <property name="sessionDAO" ref="cachedSessionDao" />
+    </bean>
+
+    <bean id="cachedSessionDao" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+        <property name="sessionIdGenerator" ref="uuidGenerator" />
+    </bean>
+
+    <bean id="uuidGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+
 </beans>
