@@ -28,6 +28,9 @@ public class AuthController extends BaseController{
         String account = userParamVo.getAccount();
         String password=userParamVo.getPassword();
         Subject subject = SecurityUtils.getSubject();
+        if( subject.isAuthenticated() ){
+            subject.logout();
+        }
         UsernamePasswordToken token = new UsernamePasswordToken(account, password);
         try {
             subject.login(token);

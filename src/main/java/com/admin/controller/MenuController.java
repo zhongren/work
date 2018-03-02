@@ -33,8 +33,8 @@ public class MenuController extends BaseController {
     public ResultBean userMenu() {
         Boolean build= StringUtil.getBoolean(getParam("build"));
         MenuVo menuVo=new MenuVo();
-        Subject subject = SecurityUtils.getSubject();
-        UserVo userVo= (UserVo)subject.getPrincipal();
+
+        UserVo userVo= SysUtil.getPrincipal();
         List<MenuVo> menuVoList =sysService.findUserMenu(userVo.getId());
         if(!menuVoList.isEmpty()){
             if(build!=null&&build){
