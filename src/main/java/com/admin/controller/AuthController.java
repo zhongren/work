@@ -4,6 +4,7 @@ import com.admin.common.base.BaseController;
 import com.admin.common.bean.ParamBean;
 import com.admin.common.bean.ResultBean;
 import com.admin.common.exception.AuthException;
+import com.admin.common.exception.BaseException;
 import com.admin.common.exception.enums.AuthEnum;
 import com.admin.model.user.UserParamVo;
 import com.admin.model.user.UserVo;
@@ -13,6 +14,7 @@ import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +44,7 @@ public class AuthController extends BaseController{
             throw new AuthException(AuthEnum.DISABLED_ACCOUNT);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new AuthException(AuthEnum.WRONG_PASSWORD);
+            throw new BaseException("异常");
         }
 
     }
