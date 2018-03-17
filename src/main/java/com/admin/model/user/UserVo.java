@@ -2,6 +2,8 @@ package com.admin.model.user;
 
 import com.admin.common.base.bean.BaseVo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -16,6 +18,15 @@ public class UserVo extends BaseVo {
     private String account;
     private Integer status;
     private Set<String> permSet;
+    private Serializable sid;
+
+    public Serializable getSid() {
+        return sid;
+    }
+
+    public void setSid(Serializable sid) {
+        this.sid = sid;
+    }
 
     public String getName() {
         return name;

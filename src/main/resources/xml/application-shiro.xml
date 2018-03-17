@@ -18,6 +18,8 @@
             -->
             <value>
                 /auth/login = anon
+                /login.html = anon
+                / = anon
                 /user/list = perms[user:list]
                 /user/create = perms[user:create]
                 /user/update = perms[user:update]
@@ -32,7 +34,7 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="myRealm"/>
         <property name="cacheManager" ref="myCacheManager"/>
-        <property name="sessionManager" ref="sessionManager" />
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
     <bean id="myRealm" class="com.admin.common.shiro.ShiroRealm">
         <!-- 配置密码匹配器 -->
@@ -59,21 +61,20 @@
     <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
 
     <!-- 会话Cookie，使用token存储sessionid -->
-    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-        <constructor-arg value="token"/>
+    <bean id="sessionIdCookie" class="com.admin.common.shiro.ShiroSimpleCookie">
         <property name="httpOnly" value="false"/>
         <!-- session过期时间30分钟 -->
         <property name="maxAge" value="180000"/>
     </bean>
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="sessionIdCookie" ref="sessionIdCookie" />
-        <property name="sessionIdCookieEnabled" value="true" />
-        <property name="cacheManager" ref="myCacheManager" />
-        <property name="sessionDAO" ref="cachedSessionDao" />
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="cacheManager" ref="myCacheManager"/>
+        <property name="sessionDAO" ref="cachedSessionDao"/>
     </bean>
 
     <bean id="cachedSessionDao" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
-        <property name="sessionIdGenerator" ref="sessionIdGenerator" />
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
     </bean>
 
 </beans>

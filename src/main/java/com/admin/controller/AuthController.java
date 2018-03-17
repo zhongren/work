@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("auth")
 public class AuthController extends BaseController{
-
+    private final long DEFAULT_SESSION_TIMEOUT = 3600 * 1000 ;
     @RequestMapping(value = "login",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_UTF8_VALUE,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultBean login(@RequestBody UserParamVo userParamVo) {
         String account = userParamVo.getAccount();
@@ -37,6 +37,8 @@ public class AuthController extends BaseController{
         try {
             subject.login(token);
             UserVo user = (UserVo) subject.getPrincipal();
+            user.setSid(subject.getSession().getId());
+            //remember(true);
             return success(user,"登陆成功");
         } catch (UnknownAccountException e) {
             throw new AuthException(AuthEnum.UNKNOWN_ACCOUNT);
@@ -63,5 +65,10 @@ public class AuthController extends BaseController{
     @RequestMapping(value = "noLogin")
     public String noLogin() {
         throw new AuthException(AuthEnum.UNLOGIN);
+    }
+
+    private void remember( boolean isRemember ){
+        Subject subject = SecurityUtils.getSubject() ;
+        subject.getSession().setTimeout(DEFAULT_SESSION_TIMEOUT);
     }
 }

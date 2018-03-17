@@ -60,7 +60,7 @@
         <init-param>
             <param-name>cors.supportedHeaders</param-name>
             <param-value>Accept, Origin, XRequestedWith, Content-Type,
-                LastModified,Content-Type,AccessToken,accesstoken,App-Name,Hash,Power-By,Device-Type,Version
+                LastModified,Content-Type,AccessToken,accesstoken,App-Name,Hash,Power-By,Device-Type,Version,sid
             </param-value>
         </init-param>
         <init-param>
