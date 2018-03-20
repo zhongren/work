@@ -19,7 +19,6 @@
             <value>
                 /auth/login = anon
                 /login.html = anon
-                / = anon
                 /user/list = perms[user:list]
                 /user/create = perms[user:create]
                 /user/update = perms[user:update]
@@ -60,8 +59,10 @@
     <!-- 会话ID生成器 -->
     <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
 
-    <!-- 会话Cookie，使用token存储sessionid -->
+    <!-- 会话Cookie，使用token代替cookie -->
     <bean id="sessionIdCookie" class="com.admin.common.shiro.ShiroSimpleCookie">
+        <constructor-arg value="JSESSIONID" index="0" />
+        <property name="tokenName" value="sid"/>
         <property name="httpOnly" value="false"/>
         <!-- session过期时间30分钟 -->
         <property name="maxAge" value="180000"/>
