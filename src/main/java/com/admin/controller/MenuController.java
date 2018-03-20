@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,26 +29,33 @@ public class MenuController extends BaseController {
     @Autowired
     private SysService sysService;
 
-    @RequestMapping(value = "userMenu",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "userMenu", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResultBean userMenu() {
-        Boolean build= StringUtil.getBoolean(getParam("build"));
-        MenuVo menuVo=new MenuVo();
-
-        UserVo userVo= SysUtil.getPrincipal();
-        List<MenuVo> menuVoList =sysService.findUserMenu(userVo.getId());
-        if(!menuVoList.isEmpty()){
-            if(build!=null&&build){
-                for(MenuVo menu:menuVoList){
-                    for(MenuVo menu1:menuVoList){
-                       if(menu1.getParentId().equals(menu.getId())){
-                           menu.getSubMenuVo().add(menu1);
-                       }
+        Boolean build = StringUtil.getBoolean(getParam("build"));
+        List<MenuVo> menus = new ArrayList<>();
+        UserVo userVo = getLoginUser();
+        List<MenuVo> menuVoList = sysService.findUserMenu(userVo.getId());
+        if (!menuVoList.isEmpty()) {
+            if (build != null && build) {
+                for (MenuVo menu1 : menuVoList) {
+                    boolean flag = false;
+                    for (MenuVo menu : menuVoList) {
+                        if (menu1.getParentId().equals(menu.getId())) {
+                            menu.getSubMenuVo().add(menu1);
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (!flag) {
+                        menus.add(menu1);
                     }
                 }
+            } else {
+                menus=new ArrayList<>(menuVoList);
             }
         }
 
-        return success(menuVo);
+        return success(menus);
     }
 }
