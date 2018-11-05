@@ -6,6 +6,10 @@ import com.admin.common.bean.ResultBean;
 import com.admin.model.user.UserVo;
 import com.admin.service.UserService;
 
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -34,5 +38,14 @@ public class UserController extends BaseController {
         UserVo userVo=new UserVo();
         userVo.setAccount("ccc");
         return success(userService.create(userVo), "添加");
+    }
+
+
+
+    public static void main(String[] args) {
+        UserVo userVo=new UserVo();
+        userVo.setName("1111");
+        BeanWrapper beanWrapper=new BeanWrapperImpl(userVo);
+        beanWrapper.getPropertyValue("name");
     }
 }

@@ -11,10 +11,13 @@ import com.admin.model.user.UserVo;
 import org.apache.shiro.SecurityUtils;
 
 import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,14 +26,19 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("auth")
-public class AuthController extends BaseController{
-    private final long DEFAULT_SESSION_TIMEOUT = 3600 * 1000 ;
-    @RequestMapping(value = "login",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_UTF8_VALUE,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class AuthController extends BaseController {
+    private static Logger logger = LoggerFactory.getLogger(AuthController.class);
+
+    private final long DEFAULT_SESSION_TIMEOUT = 3600 * 1000;
+
+    @RequestMapping(value = "login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResultBean login(@RequestBody UserParamVo userParamVo) {
         String account = userParamVo.getAccount();
-        String password=userParamVo.getPassword();
+        String password = userParamVo.getPassword();
+        System.out.println(account);
+        System.out.println(password);
         Subject subject = SecurityUtils.getSubject();
-        if( subject.isAuthenticated() ){
+        if (subject.isAuthenticated()) {
             subject.logout();
         }
         UsernamePasswordToken token = new UsernamePasswordToken(account, password);
@@ -39,11 +47,14 @@ public class AuthController extends BaseController{
             UserVo user = (UserVo) subject.getPrincipal();
             user.setSid(subject.getSession().getId());
             //remember(true);
-            return success(user,"登陆成功");
+            return success(user, "登陆成功");
         } catch (UnknownAccountException e) {
             throw new AuthException(AuthEnum.UNKNOWN_ACCOUNT);
         } catch (DisabledAccountException e) {
             throw new AuthException(AuthEnum.DISABLED_ACCOUNT);
+        } catch (IncorrectCredentialsException e) {
+            throw new AuthException(AuthEnum.WRONG_PASSWORD);
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new BaseException("异常");
@@ -67,8 +78,8 @@ public class AuthController extends BaseController{
         throw new AuthException(AuthEnum.UNLOGIN);
     }
 
-    private void remember( boolean isRemember ){
-        Subject subject = SecurityUtils.getSubject() ;
+    private void remember(boolean isRemember) {
+        Subject subject = SecurityUtils.getSubject();
         subject.getSession().setTimeout(DEFAULT_SESSION_TIMEOUT);
     }
 }
