@@ -19,6 +19,9 @@ public class UserRepo extends BaseRepo {
     public void init() {
         ConditionMap conditionMap = new ConditionMap();
         conditionMap.put("id", new Condition("id", Op.EQ));
+        conditionMap.put("account", new Condition("account", Op.LIKE));
+        conditionMap.put("name", new Condition("name", Op.LIKE));
+        conditionMap.put("status", new Condition("status", Op.EQ));
         setConditionMap(conditionMap);
     }
 }

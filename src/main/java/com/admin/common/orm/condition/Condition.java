@@ -39,6 +39,11 @@ public class Condition {
         this.op = op;
     }
 
+    public Condition(String column, String op) {
+        this.column = column;
+        this.op = op;
+    }
+
     public Condition(String column, Object value) {
         this.column = column;
         this.value = value;

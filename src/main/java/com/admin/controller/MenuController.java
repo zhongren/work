@@ -29,9 +29,9 @@ public class MenuController extends BaseController {
     @Autowired
     private SysService sysService;
 
-    @RequestMapping(value = "userMenu", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "menus", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResultBean userMenu() {
+    public ResultBean menus() {
         Boolean build = StringUtil.getBoolean(getParam("build"));
         List<MenuVo> menus = new ArrayList<>();
         UserVo userVo = getLoginUser();

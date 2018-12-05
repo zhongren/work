@@ -62,6 +62,17 @@ public class AuthController extends BaseController {
 
     }
 
+    @RequestMapping(value = "/logout",
+            method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResultBean doLogout() {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            subject.logout();
+        }
+        System.out.println("logout");
+        return success(null);
+    }
+
     @RequestMapping(value = "noAuth")
     public String noAuth() {
         /*

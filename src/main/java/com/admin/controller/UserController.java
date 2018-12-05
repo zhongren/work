@@ -21,13 +21,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2017/11/8
  */
 @Controller
+@RequestMapping(value = "user")
 public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "page", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResultBean page() {
+    public ResultBean list() {
         ParamBean paramBean = getParamBean();
         return success(userService.page(paramBean), "分页查询");
     }

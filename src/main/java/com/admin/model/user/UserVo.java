@@ -17,9 +17,11 @@ public class UserVo extends BaseVo {
     private String password;
     private String account;
     private Integer status;
+    @JsonIgnore
     private Set<String> permSet;
     private Serializable sid;
-
+    private String roleName;
+    private Set<String> roleSet;
     public Serializable getSid() {
         return sid;
     }
