@@ -1,4 +1,18 @@
+/*
+ Navicat Premium Data Transfer
 
+ Source Server         : localhost
+ Source Server Type    : MySQL
+ Source Server Version : 50717
+ Source Host           : 127.0.0.1
+ Source Database       : db_admin
+
+ Target Server Type    : MySQL
+ Target Server Version : 50717
+ File Encoding         : utf-8
+
+ Date: 12/15/2018 16:28:32 PM
+*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -13,8 +27,9 @@ CREATE TABLE `tb_menu` (
   `create_time` datetime NOT NULL,
   `update_time` datetime DEFAULT NULL,
   `parent_id` bigint(11) DEFAULT NULL COMMENT '父菜单ID',
-  `level` bigint(11) DEFAULT '1' COMMENT '菜单层级(默认为1级菜单)',
+  `level` int(11) DEFAULT '1' COMMENT '菜单层级(默认为1级菜单)',
   `url` varchar(50) DEFAULT NULL COMMENT '菜单路径',
+  `icon` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
@@ -22,7 +37,7 @@ CREATE TABLE `tb_menu` (
 --  Records of `tb_menu`
 -- ----------------------------
 BEGIN;
-INSERT INTO `tb_menu` VALUES ('1', '系统管理', '2018-02-27 15:44:06', null, null, '1', null), ('2', '基础信息', '2018-02-27 15:44:31', null, null, '1', null), ('3', '用户管理', '2018-02-27 15:53:46', null, '2', '2', 'user'), ('4', '角色管理', '2018-02-27 15:54:15', null, '1', '2', 'role'), ('5', '权限管理', '2018-02-27 15:54:49', null, '1', '2', 'perm');
+INSERT INTO `tb_menu` VALUES ('1', '系统管理', '2018-02-27 15:44:06', null, null, '1', null, null), ('2', '基础信息', '2018-02-27 15:44:31', null, null, '1', null, null), ('3', '用户管理', '2018-02-27 15:53:46', null, '2', '2', 'user', null), ('4', '角色管理', '2018-02-27 15:54:15', null, '1', '2', 'role', null), ('5', '权限管理', '2018-02-27 15:54:49', null, '1', '2', 'perm', null);
 COMMIT;
 
 -- ----------------------------
@@ -31,20 +46,20 @@ COMMIT;
 DROP TABLE IF EXISTS `tb_perm`;
 CREATE TABLE `tb_perm` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `url` varchar(50) NOT NULL COMMENT '权限路径',
+  `url` varchar(50) DEFAULT NULL COMMENT '权限路径',
   `name` varchar(50) DEFAULT NULL COMMENT '权限名称',
   `menu_id` bigint(50) NOT NULL COMMENT '菜单ID',
-  `menu_url` varchar(50) NOT NULL COMMENT '菜单路径',
+  `menu_url` varchar(50) DEFAULT NULL COMMENT '菜单路径',
   `create_time` datetime NOT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `tb_perm`
 -- ----------------------------
 BEGIN;
-INSERT INTO `tb_perm` VALUES ('1', 'create', '添加', '4', 'role', '2018-02-27 16:03:13', null), ('2', 'update', '修改', '4', 'role', '2018-02-27 16:03:34', null), ('3', 'delete', '删除', '4', 'role', '2018-02-27 16:03:54', null), ('4', 'list', '分页查询', '4', 'role', '2018-02-27 16:05:07', null), ('5', 'find', '查询', '4', 'role', '2018-02-27 16:05:38', null), ('6', 'create', '添加', '3', 'user', '2018-02-27 16:10:14', null), ('7', 'update', '修改', '3', 'user', '2018-02-27 16:10:37', null), ('8', 'delete', '删除', '3', 'user', '2018-02-27 16:10:54', null), ('9', 'list', '分页查询', '3', 'user', '2018-02-27 16:11:12', null), ('10', 'find', '查询', '3', 'user', '2018-02-27 16:11:32', null);
+INSERT INTO `tb_perm` VALUES ('1', 'create', '添加', '4', 'role', '2018-02-27 16:03:13', null), ('2', 'update', '修改', '4', 'role', '2018-02-27 16:03:34', null), ('3', 'delete', '删除', '4', 'role', '2018-02-27 16:03:54', null), ('4', 'list', '分页查询', '4', 'role', '2018-02-27 16:05:07', null), ('5', 'find', '查询', '4', 'role', '2018-02-27 16:05:38', null), ('6', 'create', '添加', '3', 'user', '2018-02-27 16:10:14', null), ('7', 'update', '修改', '3', 'user', '2018-02-27 16:10:37', null), ('8', 'delete', '删除', '3', 'user', '2018-02-27 16:10:54', null), ('9', 'list', '分页查询', '3', 'user', '2018-02-27 16:11:12', null), ('10', 'find', '查询', '3', 'user', '2018-02-27 16:11:32', null), ('11', null, '系统管理', '1', null, '2018-03-01 17:20:32', null), ('12', null, '基础信息', '2', null, '2018-03-01 17:21:23', null);
 COMMIT;
 
 -- ----------------------------
@@ -57,7 +72,7 @@ CREATE TABLE `tb_role` (
   `create_time` datetime NOT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `tb_role`
@@ -77,7 +92,14 @@ CREATE TABLE `tb_role_perm` (
   `create_time` datetime NOT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `tb_role_perm`
+-- ----------------------------
+BEGIN;
+INSERT INTO `tb_role_perm` VALUES ('1', '1', '1', '2018-03-01 14:15:31', null), ('2', '1', '2', '2018-03-01 14:15:57', null), ('3', '1', '3', '2018-03-01 14:16:05', null), ('4', '1', '4', '2018-03-01 14:16:13', null), ('5', '1', '5', '2018-03-01 14:16:22', null), ('6', '1', '6', '2018-03-01 14:16:29', null), ('7', '1', '7', '2018-03-01 14:16:38', null), ('8', '1', '8', '2018-03-01 14:16:50', null), ('9', '1', '9', '2018-03-01 14:17:01', null), ('10', '1', '10', '2018-03-01 14:17:22', null), ('11', '1', '11', '2018-03-20 19:16:41', null), ('12', '1', '12', '2018-03-20 19:16:57', null);
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `tb_user`
@@ -100,7 +122,7 @@ CREATE TABLE `tb_user` (
 --  Records of `tb_user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `tb_user` VALUES ('1', '系统管理员', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '1', '2018-02-27 15:58:09', null, null, null);
+INSERT INTO `tb_user` VALUES ('1', '系统管理员', 'admin', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '1', '2018-02-27 15:58:09', null, null, null), ('2', '小灰灰', 'huihui', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '1', '2018-11-27 11:17:57', null, null, null), ('3', '3', '3', '3', '1', '2018-11-28 10:01:20', null, null, null), ('4', '4', '4', '4', '1', '2018-11-28 10:01:44', null, null, null), ('5', '5', '5', '5', '1', '2018-11-28 10:01:59', null, null, null), ('6', '6', '6', '6', '1', '2018-11-28 10:02:14', null, null, null), ('7', '7', '7', '7', '1', '2018-11-28 10:02:29', null, null, null), ('8', '8', '8', '8', '1', '2018-11-28 10:02:57', null, null, null), ('9', '9', '9', '9', '1', '2018-11-28 10:03:12', null, null, null), ('10', '10', '10', '10', '1', '2018-11-28 10:03:30', null, null, null), ('11', '11', '11', '11', '1', '2018-11-28 10:03:43', null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -115,5 +137,12 @@ CREATE TABLE `tb_user_role` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `tb_user_role`
+-- ----------------------------
+BEGIN;
+INSERT INTO `tb_user_role` VALUES ('1', '1', '1', '2018-03-01 15:54:32', null);
+COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
