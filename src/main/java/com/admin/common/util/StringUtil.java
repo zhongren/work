@@ -34,7 +34,7 @@ public class StringUtil {
     }
 
     public static boolean isEmpty(String str) {
-        return StringUtils.isEmpty(str);
+        return StringUtils.isBlank(str);
     }
 
     /**

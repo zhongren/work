@@ -59,7 +59,7 @@ public class UserParamVo extends BaseVo {
 
     @Override
     public String toString() {
-        return "UserVo{" +
+        return "UserDto{" +
                 "name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", account='" + account + '\'' +

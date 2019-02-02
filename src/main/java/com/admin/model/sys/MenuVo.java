@@ -4,6 +4,7 @@ import com.admin.common.base.bean.BaseVo;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,6 +12,9 @@ import java.util.List;
  */
 @Data
 public class MenuVo extends BaseVo {
+    private String id;
+    private Date createTime;
+    private Date updateTime;
     private String url;
     private String name;
     private Long parentId;

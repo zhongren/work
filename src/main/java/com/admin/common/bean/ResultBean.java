@@ -58,7 +58,7 @@ public class ResultBean implements Serializable {
 
     private ResultBean(Object data) {
         this.code = SUCCESS;
-        this.msg = "OK";
+        this.msg = "success";
         this.data = data;
     }
 

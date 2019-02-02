@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.admin.mapper.WorkMapper" >
+  <select id="rank" parameterType="java.util.Map" resultType="java.util.Map">
+    select sum(w.total) as total,w.uid,u.name,u.pic from tb_work w JOIN tb_user u on w.uid=u.id
+    where 1=1
+    <if test="year!=null and year!=''">
+      AND w.year =#{year}
+    </if>
+    group by w.uid
+
+
+    ORDER BY total desc
+</select>
+</mapper>

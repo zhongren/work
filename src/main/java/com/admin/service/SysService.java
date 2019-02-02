@@ -35,8 +35,8 @@ public class SysService {
      * @param userId
      * @return
      */
-    public List<MenuVo> findUserMenu(long userId) {
-        List<MenuVo> menuVoList = menuRepo.findUserMenu(userId);
-        return menuVoList;
+    public List<MenuVo> findUserMenu(String userId) {
+       // List<MenuVo> menuVoList = menuRepo.findUserMenu(userId);
+        return null;
     }
 }
